@@ -22,7 +22,7 @@ public class Artista {
     private String tipo;
 
     @Column(name = "created_at")
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     @ManyToMany
     @JoinTable(
