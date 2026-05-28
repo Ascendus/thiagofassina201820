@@ -31,12 +31,17 @@ public class AlbumService {
     }
 
     public AlbumResponse criar(AlbumRequest request) {
-        Artista artista = artistaRepository.findById(request.artistaId()).orElseThrow(() -> new ResourceNotFoundException("Artista não encontrado"));
+        Artista artista = artistaRepository.findById(request.artistaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Artista não encontrado"));
+
         Album album = new Album();
         album.setTitulo(request.titulo());
-        artista.getAlbuns().add(album);
+        Album albumSalvo = albumRepository.save(album);
+
+        artista.getAlbuns().add(albumSalvo);
         artistaRepository.save(artista);
-        return toResponse(albumRepository.save(album));
+
+        return toResponse(albumSalvo);
     }
 
     private AlbumResponse toResponse(Album album) {
