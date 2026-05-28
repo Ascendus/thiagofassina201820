@@ -7,6 +7,7 @@ import br.gov.mt.seplag.api.repository.ArtistaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import br.gov.mt.seplag.api.exception.ResourceNotFoundException;
 
 @Service
 public class ArtistaService {
@@ -34,7 +35,7 @@ public class ArtistaService {
     }
 
     public ArtistaResponse buscarPorId(Long id) {
-        Artista artista = artistaRepository.findById(id).orElseThrow(() -> new RuntimeException("Artista não encontrado."));
+        Artista artista = artistaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Artista não encontrado."));
         return toResponse(artista);
 
     }
@@ -47,7 +48,7 @@ public class ArtistaService {
     }
 
     public ArtistaResponse editar(Long id, ArtistaRequest request) {
-        Artista artista = artistaRepository.findById(id).orElseThrow(() -> new RuntimeException("Artista não encontrado."));
+        Artista artista = artistaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Artista não encontrado."));
         artista.setNome(request.nome());
         artista.setTipo(request.tipo());
         return  toResponse(artistaRepository.save(artista));
