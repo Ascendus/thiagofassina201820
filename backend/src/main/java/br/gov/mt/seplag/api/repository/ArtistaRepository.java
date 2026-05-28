@@ -1,0 +1,10 @@
+package br.gov.mt.seplag.api.repository;
+
+import br.gov.mt.seplag.api.model.Artista;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ArtistaRepository extends JpaRepository<Artista, Long> {
+    Page<Artista> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
+}

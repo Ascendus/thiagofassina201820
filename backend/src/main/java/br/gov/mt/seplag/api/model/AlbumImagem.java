@@ -17,6 +17,6 @@ public class AlbumImagem {
     private Album album;
 
     @Column(name = "object_key", nullable = false, length = 500)
-    private String object_key;
+    private String objectKey;
 
 }
