@@ -12,9 +12,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/v1/albuns")
+@SecurityRequirement(name = "bearerAuth")
 public class AlbumController {
 
     private final AlbumService albumService;

@@ -2,13 +2,13 @@ CREATE TABLE artistas (
                           id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                           nome        VARCHAR(200) NOT NULL,
                           tipo        VARCHAR(20)  NOT NULL,
-                          created_at  TIMESTAMP    DEFAULT NOW()
+                          created_at  TIMESTAMP    NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE albuns (
                         id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                         titulo      VARCHAR(300) NOT NULL,
-                        created_at  TIMESTAMP    DEFAULT NOW()
+                        created_at  TIMESTAMP    NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE artista_album (
