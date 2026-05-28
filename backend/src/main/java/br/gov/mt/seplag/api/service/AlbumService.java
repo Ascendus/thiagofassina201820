@@ -9,6 +9,7 @@ import br.gov.mt.seplag.api.repository.ArtistaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import br.gov.mt.seplag.api.exception.ResourceNotFoundException;
 
 import java.util.Collections;
 
@@ -30,7 +31,7 @@ public class AlbumService {
     }
 
     public AlbumResponse criar(AlbumRequest request) {
-        Artista artista = artistaRepository.findById(request.artistaId()).orElseThrow(() -> new RuntimeException("Artista não encontrado"));
+        Artista artista = artistaRepository.findById(request.artistaId()).orElseThrow(() -> new ResourceNotFoundException("Artista não encontrado"));
         Album album = new Album();
         album.setTitulo(request.titulo());
         artista.getAlbuns().add(album);

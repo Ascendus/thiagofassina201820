@@ -3,9 +3,13 @@ package br.gov.mt.seplag.api.controller;
 import br.gov.mt.seplag.api.dto.ArtistaRequest;
 import br.gov.mt.seplag.api.dto.ArtistaResponse;
 import br.gov.mt.seplag.api.service.ArtistaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +24,15 @@ public class ArtistaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ArtistaResponse>> listar(@RequestParam(defaultValue = "") String nome, Pageable pageable) {
+    @Operation(summary = "Lista artistas", parameters = {
+            @Parameter(name = "page", description = "Número da página", example = "0"),
+            @Parameter(name = "size", description = "Tamanho da página", example = "10"),
+            @Parameter(name = "sort", description = "Ordenação ex: nome,asc ou nome,desc", example = "nome,asc")
+    })
+    public ResponseEntity<Page<ArtistaResponse>> listar(
+            @RequestParam(defaultValue = "") String nome,
+            @PageableDefault(size = 10, sort = "nome", direction = Sort.Direction.ASC)
+            @Parameter(hidden = true) Pageable pageable) {
         return ResponseEntity.ok(artistaService.listar(nome, pageable));
     }
 
