@@ -1,7 +1,7 @@
 INSERT INTO usuarios (username, password, role)
 VALUES (
            'admin',
-           '$2a$12$k3T9h.iW8z1D5QpB4C0fCOx6K1N2RtMWmPl0V4vFj3bGhYaUfk9Vi',
+           '$2a$10$LYR6gse0nsEH6x7Wa45Lye.JiR/7xG2/xNsZSzxa4QlG1Q.PEzj0W',
            'ROLE_USER'
        );
 -- Senha em texto plano: admin123
