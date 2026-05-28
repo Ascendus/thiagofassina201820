@@ -1,5 +1,6 @@
 package br.gov.mt.seplag.api.service;
 
+import br.gov.mt.seplag.api.dto.AlbumImagemResponse;
 import br.gov.mt.seplag.api.exception.ResourceNotFoundException;
 import br.gov.mt.seplag.api.model.Album;
 import br.gov.mt.seplag.api.model.AlbumImagem;
@@ -26,11 +27,11 @@ public class AlbumImagemService {
         this.minioService = minioService;
     }
 
-    public List<AlbumImagem> upload(Long albumId, List<MultipartFile> arquivos) {
+    public List<AlbumImagemResponse> upload(Long albumId, List<MultipartFile> arquivos) {
         Album album = albumRepository.findById(albumId)
                 .orElseThrow(() -> new ResourceNotFoundException("Álbum não encontrado: " + albumId));
 
-        List<AlbumImagem> imagens = new ArrayList<>();
+        List<AlbumImagemResponse> imagens = new ArrayList<>();
 
         for (MultipartFile arquivo : arquivos) {
             String objectKey = minioService.upload(arquivo);
@@ -39,7 +40,8 @@ public class AlbumImagemService {
             imagem.setAlbum(album);
             imagem.setObjectKey(objectKey);
 
-            imagens.add(albumImagemRepository.save(imagem));
+            AlbumImagem salva = albumImagemRepository.save(imagem);
+            imagens.add(new AlbumImagemResponse(salva.getId(), albumId, salva.getObjectKey()));
         }
 
         return imagens;
