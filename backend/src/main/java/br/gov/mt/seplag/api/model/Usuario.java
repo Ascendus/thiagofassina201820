@@ -23,7 +23,7 @@ public class Usuario {
     @Column(nullable = false, length = 20)
     private String role;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
 

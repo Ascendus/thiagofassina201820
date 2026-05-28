@@ -21,7 +21,7 @@ public class Artista {
     @Column(nullable = false, length = 20)
     private String tipo;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @ManyToMany
