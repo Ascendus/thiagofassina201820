@@ -3,6 +3,8 @@ package br.gov.mt.seplag.api.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @Table(name = "usuarios")
@@ -20,6 +22,9 @@ public class Usuario {
 
     @Column(nullable = false, length = 20)
     private String role;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
 
 }
