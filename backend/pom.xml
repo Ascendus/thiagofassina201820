@@ -111,6 +111,17 @@
 			<artifactId>minio</artifactId>
 			<version>8.5.9</version>
 		</dependency>
+		<!-- Actuator - Health Check -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- Rate Limit - Bucket4j -->
+		<dependency>
+			<groupId>com.bucket4j</groupId>
+			<artifactId>bucket4j-core</artifactId>
+			<version>8.10.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
