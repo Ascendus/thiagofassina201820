@@ -26,3 +26,19 @@ minio:
   access-key: minioadmin
   secret-key: minioadmin123
   bucket: albuns
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
