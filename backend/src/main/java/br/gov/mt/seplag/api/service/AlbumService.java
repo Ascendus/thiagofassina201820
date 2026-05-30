@@ -1,5 +1,6 @@
 package br.gov.mt.seplag.api.service;
 
+import br.gov.mt.seplag.api.dto.AlbumNotificacaoEvent;
 import br.gov.mt.seplag.api.dto.AlbumRequest;
 import br.gov.mt.seplag.api.dto.AlbumResponse;
 import br.gov.mt.seplag.api.model.Album;
@@ -8,9 +9,11 @@ import br.gov.mt.seplag.api.repository.AlbumRepository;
 import br.gov.mt.seplag.api.repository.ArtistaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import br.gov.mt.seplag.api.exception.ResourceNotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,13 +22,16 @@ public class AlbumService {
     private final AlbumRepository albumRepository;
     private final ArtistaRepository artistaRepository;
     private final MinioService minioService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     public AlbumService(AlbumRepository albumRepository,
                         ArtistaRepository artistaRepository,
-                        MinioService minioService) {
+                        MinioService minioService,
+                        SimpMessagingTemplate messagingTemplate) {
         this.albumRepository = albumRepository;
         this.artistaRepository = artistaRepository;
         this.minioService = minioService;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public Page<AlbumResponse> listarPorArtista(Long artistaId, Pageable pageable) {
@@ -44,6 +50,13 @@ public class AlbumService {
 
         artista.getAlbuns().add(albumSalvo);
         artistaRepository.save(artista);
+
+        AlbumNotificacaoEvent evento = new AlbumNotificacaoEvent(
+                albumSalvo.getTitulo(),
+                artista.getNome(),
+                LocalDateTime.now());
+
+        messagingTemplate.convertAndSend("/topic/albuns", evento);
 
         return toResponse(albumSalvo);
     }
