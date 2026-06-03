@@ -1,8 +1,14 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import LoginPage from "./pages/LoginPage"
+
 function App() {
   return (
-    <div className="bg-blue-500 text-white p-8">
-      <h1>SEPLAG</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/artistas" element={<h1>Tela de Artistas</h1>} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
