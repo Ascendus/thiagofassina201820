@@ -7,13 +7,18 @@ function LoginPage() {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [erro, setErro] = useState('')
     const navigate = useNavigate()
-
+    
     async function handleLogin() {
-        const data = await login(username, password)
-        localStorage.setItem('accessToken', data.accessToken)
-        localStorage.setItem('refreshToken', data.refreshToken)
-        navigate('/artistas')
+        try {
+            const data = await login(username, password)
+            localStorage.setItem('accessToken', data.accessToken)
+            localStorage.setItem('refreshToken', data.refreshToken)
+            navigate('/artistas')
+        } catch (error: any) {
+            setErro(error.response?.data?.erro || 'Erro ao fazer login')
+        }
     }
 
     return (
@@ -39,6 +44,7 @@ function LoginPage() {
                         className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Digite sua senha"
                     />
+                    {erro && <p className="text-red-500 text-sm mb-4">{erro}</p>}
                 </div>
                 <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700" onClick={handleLogin} >Entrar</button>
             </div>
