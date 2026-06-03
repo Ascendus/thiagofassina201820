@@ -1,13 +1,19 @@
 import { useState } from "react"
+import { login } from '../services/authService'
+import { useNavigate } from 'react-router-dom'
+
 
 function LoginPage() {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
-    function handleLogin() {
-        console.log('usuario:', username)
-        console.log('senha:', password)
+    async function handleLogin() {
+        const data = await login(username, password)
+        localStorage.setItem('accessToken', data.accessToken)
+        localStorage.setItem('refreshToken', data.refreshToken)
+        navigate('/artistas')
     }
 
     return (
