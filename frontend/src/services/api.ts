@@ -4,10 +4,11 @@ const api = axios.create({
   baseURL: 'http://localhost:8080',
 })
 
-// Interceptor de REQUISIÇÃO — injeta o token em toda chamada
+// Interceptor de REQUISIÇÃO — injeta o token em toda chamada exceto login/refresh
 api.interceptors.request.use((config) => {
+  const isAuthEndpoint = config.url?.includes('/v1/auth/')
   const token = localStorage.getItem('accessToken')
-  if (token) {
+  if (token && !isAuthEndpoint) {
     config.headers.Authorization = `Bearer ${token}`
   }
   return config
@@ -18,9 +19,9 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config
+    const isAuthEndpoint = originalRequest.url?.includes('/v1/auth/')
 
-    // Se veio 401 e ainda não tentamos o refresh
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
       originalRequest._retry = true
 
       const refreshToken = localStorage.getItem('refreshToken')
